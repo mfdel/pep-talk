@@ -1,0 +1,18 @@
+# secrets
+.env
+
+# generated audio, caches, briefs and pull request bodies
+out/
+.cache/
+*.mp3
+
+# your speeches and personal context stay on your machine
+speeches/*
+!speeches/.gitkeep
+context/profile.md
+context/private/
+
+# tooling
+__pycache__/
+.DS_Store
+.ruff_cache/
