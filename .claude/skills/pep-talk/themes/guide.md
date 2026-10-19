@@ -3,12 +3,16 @@
 Audience: the model that writes the speech. Read this whole file, then the one theme file you route
 to (§2), then the context brief (§4), before drafting. You read no raw notes.
 
-Output: one Markdown speech file at `speeches/YYYYMMDD_<slug>_<mode>.md`, rendered to a single MP3
+Output: one Markdown speech file at `.pep-talk/speeches/YYYYMMDD_<slug>_<mode>.md`, rendered to a single MP3
 by ElevenLabs and played before sleep (`mode: sleep`) or in the morning (`mode: wake`). Length 6–10
 minutes depending on the theme.
 
 Related: `themes/<id>.md` (one file per theme), `themes/brief.md` (what the context brief returns),
-`context/` (where the listener's own material lives), `speeches/affirmations.md` (the line log, §7).
+`context/` (where the listener's own material lives), `.pep-talk/affirmations.md` (the line log, §7).
+
+Paths: `themes/`, `context/`, `examples/` and `scripts/` are inside the skill folder
+`.claude/skills/pep-talk/`. `.pep-talk/` is at the project root; it holds every generated file
+(speeches, briefs, MP3s, cache) and ignores itself in git.
 
 **This is a practice tool, not therapy and not medical advice.** It rehearses a voice; it does not
 treat anything. If you are in crisis, contact your local emergency services.
@@ -117,7 +121,7 @@ Principles (all themes):
 ## 4. Content comes only from the brief
 
 You read no raw notes. Every fact, line and moment comes from the context brief at
-`.cache/briefs/YYYYMMDD_<slug>.md`, or from the prompt itself. The brief follows `themes/brief.md`:
+`.pep-talk/briefs/YYYYMMDD_<slug>.md`, or from the prompt itself. The brief follows `themes/brief.md`:
 routing note and day state, the goal made concrete, real episodes, the event file, what happened,
 the critic's lines, reframes, the listener's own lines, values, vetted affirmation candidates,
 if-then plans, imagery, the never-mention and do-not-say lists.
@@ -212,7 +216,7 @@ topic: one line on what this talk is about
   read aloud.
 - **Budget:** characters including tags ≈ 6–7 × spoken words. ElevenLabs bills per character. Every
   speech stays at or under **5,500 characters**; each theme file gives its own range. Check before
-  saving with `sh scripts/pep_talk.sh build <speech> --dry-run`.
+  saving with `sh .claude/skills/pep-talk/scripts/pep_talk.sh build <speech> --dry-run`.
 
 **Budgets per theme** (pace ≈ 130 words per minute):
 
@@ -309,7 +313,7 @@ anchor line. Rules for every line:
 | "It was nothing special." | "Shrinking it is not modesty. It is just another inaccuracy." |
 | "You spoke up when nobody asked." (abstract: what, where, when?) | Anchor once: "At the team meeting on the twelfth, nobody offered to present. You put your hand up." Then loop: "You put your hand up when nobody moved. You did that." |
 
-**After writing the speech:** append every affirmation or anchor line to `speeches/affirmations.md`
+**After writing the speech:** append every affirmation or anchor line to `.pep-talk/affirmations.md`
 in process-form first person ("I am learning to…", "I am becoming…"), because the listener may write
 them by hand; the speech itself stays in "you". Mark each line `own words` or `composed`. Skip only
 when the theme has none. Create the file if it does not exist.
@@ -350,9 +354,9 @@ that. A speech prompts it; it never replaces it.
 - [ ] No quote attributed to the listener that the brief did not mark as their own words.
 - [ ] No ideal self other than the listener; family only as unconditional warmth.
 - [ ] `sleep` speech ends settled, never near an obstacle; ends on `[[PAUSE 30]]`.
-- [ ] Lines appended to `speeches/affirmations.md` with theme, mode and own words / composed.
-- [ ] File name: `speeches/YYYYMMDD_<slug>_<mode>.md`.
-- [ ] `sh scripts/pep_talk.sh build <file> --dry-run` parses and reports words, length and
+- [ ] Lines appended to `.pep-talk/affirmations.md` with theme, mode and own words / composed.
+- [ ] File name: `.pep-talk/speeches/YYYYMMDD_<slug>_<mode>.md`.
+- [ ] `sh .claude/skills/pep-talk/scripts/pep_talk.sh build <file> --dry-run` parses and reports words, length and
       characters inside the theme's range.
 
 ## 9. Sources

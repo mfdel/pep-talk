@@ -59,7 +59,7 @@ The brief agent finds this best in today's journal entry or daily note, a wins l
 ## Affirmations
 
 None. The ownership line "I did that." is a fixed part of this theme, spoken in section 3, so
-nothing new goes to `speeches/affirmations.md`. Skip the log.
+nothing new goes to `.pep-talk/affirmations.md`. Skip the log.
 
 ## Worked example — section 2 (excerpt), invite mode
 

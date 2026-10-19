@@ -11,6 +11,8 @@ that brief only.
 
 ## Set it up in three steps
 
+All paths below are inside the skill folder, `.claude/skills/pep-talk/`.
+
 1. **Copy the profile.** `cp context/profile.example.md context/profile.md` and fill it in. Ten
    minutes is enough; it grows over time. `profile.md` is gitignored. When a note disagrees with the
    profile, the profile wins.
@@ -42,9 +44,9 @@ up, the brief lists it under Gaps and carries on; it never guesses.
   part of your Claude Code session, and the finished speech text is sent to ElevenLabs to be voiced.
   If you set up Telegram, the MP3 and the speech go to your own bot chat. If you use pull-request
   delivery, the speech and the MP3 are pushed to your GitHub repository, so use a private one.
-- **Gitignored by default:** `context/profile.md`, `context/private/`, `speeches/`, `out/` and
-  `.cache/` (where the briefs live). `context/sources.md` is committed: it holds paths, never
-  content.
+- **Gitignored by default:** `.env`, `context/profile.md` and `context/private/` (by the skill
+  folder's own `.gitignore`), and `.pep-talk/` at the project root, where every speech, brief and
+  MP3 is written. `context/sources.md` is committed: it holds paths, never content.
 - **Sensitive material** (health, family, other people) is handled carefully by the brief agent:
   other people appear by role, not name, unless your profile allows names, and anything on your
   "never mention" list stays out of every talk.
@@ -54,9 +56,9 @@ up, the brief lists it under Gaps and carries on; it never guesses.
 A cloud session runs in a fresh copy of your repository on a remote machine. It cannot see your
 laptop's folders or anything gitignored. So the context must be either:
 
-- **in the repository itself**, which means a **private** copy of this repo with the gitignore
-  lines for `context/profile.md` and `context/private/` removed. Never remove them in a public
-  fork; or
+- **in the repository itself**, which means a **private** repository with the
+  `context/profile.md` and `context/private/` lines removed from the skill folder's `.gitignore`.
+  Never remove them in a public repository; or
 - **reachable through a connector** (Notion, Google Drive, Granola, Gmail) that the cloud session
   has access to.
 

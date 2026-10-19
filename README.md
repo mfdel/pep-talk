@@ -14,7 +14,6 @@ and to a GitHub pull request.
 /pep-talk gratitude-winddown
 ```
 
-[![tests](https://github.com/mfdel/pep-talk/actions/workflows/tests.yml/badge.svg)](https://github.com/mfdel/pep-talk/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![deps](https://img.shields.io/badge/dependencies-stdlib%20%2B%20ffmpeg-lightgrey)
 ![license](https://img.shields.io/badge/license-MIT-green)
@@ -32,7 +31,7 @@ that research shows can backfire ("I am brilliant, I am unstoppable").
   if-then plans (Gollwitzer), mental contrasting after a success scene (Oettingen's WOOP), mastery
   episodes over talent praise (Bandura; Mueller & Dweck), no global self-praise (Wood et al.),
   self-compassion over self-criticism (Neff; Breines & Chen), and calm, low-arousal endings
-  before sleep. Citations are in [`themes/guide.md`](themes/guide.md).
+  before sleep. Citations are in [`themes/guide.md`](.claude/skills/pep-talk/themes/guide.md).
 - **It sounds produced.** ElevenLabs audio tags steer delivery (`[softly]`, `[slowly]`,
   `[whispering]`). Timed pauses give you room to breathe, a quiet brown-noise bed plays under
   bedtime talks, and the audio is loudness-normalised.
@@ -53,13 +52,13 @@ that research shows can backfire ("I am brilliant, I am unstoppable").
         │ a short, cited brief (only what's relevant to today's topic)
         ▼
  ┌──────────────┐   theme rules + evidence guardrails (themes/)
- │ speech writer│ ─────────▶ speeches/20261019_interview_wake.md
+ │ speech writer│ ─────────▶ .pep-talk/speeches/20261019_interview_wake.md
  └──────┬───────┘
         ▼
- scripts/pep_talk.sh build   → budget check → ElevenLabs, one request per segment → ffmpeg mix
+ pep_talk.sh build   → budget check → ElevenLabs, one request per segment → ffmpeg mix
         ▼
- out/20261019_interview_wake.mp3 ──▶ Telegram bot chat
-                                 └─▶ GitHub pull request (play link + transcript)
+ .pep-talk/out/20261019_interview_wake.mp3 ──▶ Telegram bot chat
+                                           └─▶ GitHub pull request (play link + transcript)
 ```
 
 The main session never reads your raw notes. One brief agent reads them and hands back only what
@@ -80,7 +79,7 @@ private files out of the main context.
 | `custom "<request>"` | as asked | as asked | Anything else, described in your own words. |
 
 Without a theme, the skill picks one from the topic using the routing table in
-[`themes/guide.md`](themes/guide.md). **`sleep`** talks slow down and end drowsy, over a quiet noise
+[`themes/guide.md`](.claude/skills/pep-talk/themes/guide.md). **`sleep`** talks slow down and end drowsy, over a quiet noise
 bed. **`wake`** talks end on one concrete action for today.
 
 ---
@@ -90,17 +89,26 @@ bed. **`wake`** talks end on one concrete action for today.
 **You need:** [Claude Code](https://claude.com/claude-code), Python 3.10+, `ffmpeg` (installed
 for you on Linux; on a Mac, `brew install ffmpeg`), and an ElevenLabs API key.
 
-1. **Get your own copy.** Click **Use this template**, then **Create a new repository**, and set it
-   to **Private**. Your copy will hold personal talks. Then clone it:
+1. **Install.** The whole skill is one folder: `.claude/skills/pep-talk/`. Pick one:
 
-   ```sh
-   git clone https://github.com/<you>/pep-talk.git && cd pep-talk
-   ```
+   - **Into a repo you already have** (your notes repo is ideal, because then your context is
+     right there):
+
+     ```sh
+     git clone --depth 1 https://github.com/mfdel/pep-talk.git /tmp/pep-talk
+     mkdir -p .claude/skills && cp -R /tmp/pep-talk/.claude/skills/pep-talk .claude/skills/
+     ```
+
+   - **As a new repo:** click **Use this template**, then **Create a new repository**, set it to
+     **Private** (it will hold personal talks), and clone it.
+
+   Generated files go in `.pep-talk/` at your project root. That folder ignores itself in git, so
+   you don't need to edit your `.gitignore`.
 
 2. **Add your keys.**
 
    ```sh
-   cp .env.example .env      # gitignored
+   cp .claude/skills/pep-talk/.env.example .claude/skills/pep-talk/.env      # gitignored
    ```
 
    Set `ELEVENLABS_API_KEY`. Create one at
@@ -111,17 +119,21 @@ for you on Linux; on a Mac, `brew install ffmpeg`), and an ElevenLabs API key.
 3. **Tell it who you are.**
 
    ```sh
-   cp context/profile.example.md context/profile.md   # gitignored; 10 minutes is enough
+   cp .claude/skills/pep-talk/context/profile.example.md .claude/skills/pep-talk/context/profile.md
+   # gitignored; fill it in, 10 minutes is enough
    ```
 
 4. **Check the setup, then try it for free.**
 
    ```sh
-   sh scripts/pep_talk.sh doctor                                 # ✓ / ✗ per dependency, with fixes
-   sh scripts/pep_talk.sh build examples/sample.md --mock        # full pipeline, placeholder audio, no credits
+   # ✓ / ✗ per dependency, each with a fix
+   sh .claude/skills/pep-talk/scripts/pep_talk.sh doctor
+
+   # the full pipeline with placeholder audio: no key, no credits
+   sh .claude/skills/pep-talk/scripts/pep_talk.sh build .claude/skills/pep-talk/examples/sample.md --mock
    ```
 
-5. **Run it.** Open Claude Code in the repo and type:
+5. **Run it.** Open Claude Code in the project and type:
 
    ```
    /pep-talk mock gratitude-winddown a normal Tuesday     # end-to-end test, no credits
@@ -137,8 +149,9 @@ for you on Linux; on a Mac, `brew install ffmpeg`), and an ElevenLabs API key.
 > release, a line from your journal, and what you're actually working toward sounds like
 > someone who knows you.
 
-The brief agent reads [`context/profile.md`](context/profile.example.md) first, then every source
-listed in [`context/sources.md`](context/sources.md). Add one line per source:
+The brief agent reads `context/profile.md` ([template](.claude/skills/pep-talk/context/profile.example.md)) first,
+then every source listed in [`context/sources.md`](.claude/skills/pep-talk/context/sources.md), both inside the skill
+folder. Add one line per source; paths are relative to your project root:
 
 ```markdown
 - `~/notes` — my Markdown notes repo — any topic; check recent files first
@@ -154,7 +167,7 @@ listed in [`context/sources.md`](context/sources.md). Add one line per source:
 Anything works: a folder of Markdown, **another git repository on your disk** (just give its path),
 PDFs, a wins/brag log, goals or OKRs, meeting transcripts, coaching homework, a public post you
 wrote, or any app that Claude Code reaches through an MCP connector. For quick, no-setup context,
-drop files into `context/private/` (gitignored).
+drop files into the skill's `context/private/` folder (gitignored).
 
 What makes a source good:
 - **Episodes with dates.** "Shipped the migration on 3 March after two failed tries" beats "I'm good
@@ -165,18 +178,17 @@ What makes a source good:
   not a generic one.
 - **A never-mention list** in your profile. Those topics stay out of every talk.
 
-**Alternative: bring the skill to your context.** If your notes already live in a repo, copy
-`.claude/skills/pep-talk/`, `scripts/`, `themes/` and `context/` into it. The skill then runs
-inside your notes, and `context/sources.md` can point at `.`.
+**Best setup: put the skill where your notes are.** Copy the skill folder into your notes repo,
+and `context/sources.md` can point at `.`, so everything you already write becomes context.
 
-More detail: [`context/README.md`](context/README.md).
+More detail: [`context/README.md`](.claude/skills/pep-talk/context/README.md).
 
 ---
 
 ## Delivery
 
 Both channels are optional and independent. The skill runs each one that is set up and tells you
-when one is skipped. Without either, the MP3 stays in `out/`.
+when one is skipped. Without either, the MP3 stays in `.pep-talk/out/`.
 
 ### Telegram (recommended: every talk lands on your phone)
 
@@ -185,7 +197,8 @@ when one is skipped. Without either, the MP3 stays in `out/`.
 2. Open your new bot and send it `/start`. A bot can't message a chat that never wrote to it.
 3. Open `https://api.telegram.org/bot<token>/getUpdates` and copy `message.chat.id` into
    `TELEGRAM_CHAT_ID`.
-4. Test: `sh scripts/pep_talk.sh telegram out/sample.mp3 examples/sample.md`
+4. Test with the mock sample from the quick start:
+   `sh .claude/skills/pep-talk/scripts/pep_talk.sh telegram .pep-talk/out/sample.mp3 .claude/skills/pep-talk/examples/sample.md`
 
 Each talk arrives as a playable audio message with its title, date, theme and topic in the
 caption, plus the transcript as a reply.
@@ -214,9 +227,9 @@ arrives in Telegram. To set it up, in your cloud environment's settings:
    `xi-api-key`).
 2. **Network access:** allow `api.elevenlabs.io` and `api.telegram.org`. ffmpeg comes from apt the
    first time a talk is built.
-3. **Context:** a cloud session sees only what's in the repo, plus any connectors it has. In your
-   **private** copy, remove the `context/profile.md` and `context/private/` lines from
-   `.gitignore` and commit your context. Or keep the context in Notion or Drive and list it as an
+3. **Context:** a cloud session sees only what's in the repo, plus any connectors it has. In a
+   **private** repo, remove the `context/profile.md` and `context/private/` lines from the skill
+   folder's `.gitignore` and commit your context. Or keep the context in Notion or Drive and list it as an
    `mcp:` source. Never do this in a public fork.
 
 The cloud git proxy often allows pushing only the session's own branch. When that happens, `pr`
@@ -229,11 +242,12 @@ commits the talk to the session branch, and that branch becomes the pull request
 ### Commands
 
 ```sh
-sh scripts/pep_talk.sh build  <speech.md> [--dry-run | --mock] [--out FILE] [--voice ID] [--model ID]
-                                          [--no-stitch] [--bed brown|none|FILE] [--bed-db DB]
-sh scripts/pep_talk.sh telegram <file.mp3> <speech.md> [--dry-run]
-sh scripts/pep_talk.sh pr       <file.mp3> <speech.md> [--base BRANCH] [--head BRANCH] [--allow-public] [--dry-run]
-sh scripts/pep_talk.sh doctor   [--offline]
+cd <project root>; P=.claude/skills/pep-talk/scripts/pep_talk.sh
+sh $P build    <speech.md> [--dry-run | --mock] [--out FILE] [--voice ID] [--model ID]
+                           [--no-stitch] [--bed brown|none|FILE] [--bed-db DB]
+sh $P telegram <file.mp3> <speech.md> [--dry-run]
+sh $P pr       <file.mp3> <speech.md> [--base BRANCH] [--head BRANCH] [--allow-public] [--dry-run]
+sh $P doctor   [--offline]
 ```
 
 - `--dry-run` parses the speech and prints spoken words, estimated length and characters billed
@@ -242,7 +256,7 @@ sh scripts/pep_talk.sh doctor   [--offline]
 - Exit codes: `0` done · `1` error · `2` bad usage · `3` channel not set up (or public repo
   refused) · `4` PR branch pushed, but no `gh` to open the PR.
 
-Segments are cached in `.cache/segments/`, so a re-run after a failure only bills the segments
+Segments are cached in `.pep-talk/cache/`, so a re-run after a failure only bills the segments
 that didn't finish.
 
 ### Speech format
@@ -265,20 +279,29 @@ voice_id: JBFqnCBsd6RMkjVDRZzb   # optional
 
 Single-bracket tags are [ElevenLabs audio tags](https://elevenlabs.io/docs/best-practices/prompting/eleven-v3).
 They steer delivery and are not read aloud. The tags that are safe to use are listed in
-[`themes/guide.md`](themes/guide.md) §5. A full example is in
-[`examples/sample.md`](examples/sample.md).
+[`themes/guide.md`](.claude/skills/pep-talk/themes/guide.md) §5. A full example is in
+[`examples/sample.md`](.claude/skills/pep-talk/examples/sample.md).
 
 ### Repository layout
 
 ```
-.claude/skills/pep-talk/SKILL.md   the skill: parse → brief → write → budget → render → deliver
-themes/guide.md                    shared writing rules, routing, evidence guardrails, markup
-themes/brief.md                    what the brief agent extracts from your context
-themes/<theme>.md                  structure, timings and worked example per theme
-context/                           your profile and source list (README inside)
-scripts/pep_talk.py                renderer + delivery CLI (stdlib only)
-scripts/pep_talk.sh                wrapper; installs ffmpeg on first use
-tests/                             unittest suite, no network or key needed
+.claude/skills/pep-talk/
+├── SKILL.md              the skill: parse → brief → write → budget → render → deliver
+├── .env.example          API keys and Telegram settings (copy to .env)
+├── themes/
+│   ├── guide.md          shared writing rules, routing, evidence guardrails, markup
+│   ├── brief.md          what the brief agent extracts from your context
+│   └── <theme>.md        structure, timings and a worked example per theme
+├── context/              your profile and source list (README inside)
+├── examples/sample.md    a short speech showing the format
+└── scripts/
+    ├── pep_talk.sh       entry point; installs ffmpeg on first use
+    ├── pep_talk.py       command line: build | telegram | pr | doctor
+    └── peptalk/          one module per job: speech parsing, ElevenLabs, audio,
+                          build, Telegram, GitHub PR, doctor (Python stdlib only)
+
+.pep-talk/                generated at your project root, ignored by git:
+                          speeches/, briefs/, out/ (MP3s), cache/, affirmations.md
 ```
 
 ### Cost
@@ -299,15 +322,7 @@ count before you spend anything.
 | `pr` refuses: public repository | That's on purpose. Use a private copy, or pass `--allow-public`. |
 | The talk feels generic | It's the context. Fill in `context/profile.md` and add real sources. |
 
-Run `sh scripts/pep_talk.sh doctor` first. It checks every item above.
-
-### Development
-
-```sh
-python3 -m unittest discover -s tests -v      # no network, no API key
-```
-
-CI runs the tests, a dry run and a mock end-to-end build on every push.
+Run `sh .claude/skills/pep-talk/scripts/pep_talk.sh doctor` first. It checks every item above.
 
 ---
 
@@ -316,7 +331,8 @@ CI runs the tests, a dry run and a mock end-to-end build on every push.
 Your context and talks stay on your machine, with three exceptions. What Claude reads is sent to
 Anthropic as part of your Claude Code session. The speech text is sent to ElevenLabs to be voiced.
 And the MP3 goes to your own Telegram chat and your own GitHub repo, if you set those up.
-`.env`, `context/profile.md`, `context/private/`, `speeches/`, `out/` and `.cache/` are gitignored.
+The skill's `.env`, `context/profile.md` and `context/private/` are gitignored, and so is
+everything in `.pep-talk/`.
 
 ## Not therapy
 

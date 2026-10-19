@@ -76,7 +76,7 @@ earlier note where the listener wrote down what they feared about this event.
 ## Affirmations
 
 None new. The ownership line "I did that." and the both-ways test are fixed parts of this theme,
-spoken in section 5. Nothing new goes to `speeches/affirmations.md`. Skip the log, unless section 5
+spoken in section 5. Nothing new goes to `.pep-talk/affirmations.md`. Skip the log, unless section 5
 used one of the listener's own lines from the brief for the first time; then log that line as
 `own words`.
 

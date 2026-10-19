@@ -1,0 +1,4 @@
+.env
+context/profile.md
+context/private/
+__pycache__/

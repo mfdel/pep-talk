@@ -6,7 +6,7 @@ topic: winding down after an ordinary day
 ---
 <!-- theme: gratitude-winddown — chosen because: ordinary evening, nothing to process -->
 <!--
-Format reference for scripts/pep_talk.py. A short sample, not a full-length talk. Writing rules:
+Format reference for the renderer (scripts/pep_talk.py). A short sample, not a full-length talk. Writing rules:
 themes/guide.md and the theme files in themes/. The listener "Alex" and the day are invented.
 
 - Front matter: `key: value` lines between `---` fences; trailing `# comments` are stripped.
@@ -22,8 +22,8 @@ themes/guide.md and the theme files in themes/. The listener "Alex" and the day 
 - Lines starting with '# ' are section labels for humans. HTML comments are dropped.
 
 Build:
-  sh scripts/pep_talk.sh build examples/sample.md --dry-run   # parse, count words, length, characters
-  sh scripts/pep_talk.sh build examples/sample.md --mock      # full pipeline with placeholder audio, no credits
+  sh .claude/skills/pep-talk/scripts/pep_talk.sh build .claude/skills/pep-talk/examples/sample.md --dry-run   # parse, count words, length, characters
+  sh .claude/skills/pep-talk/scripts/pep_talk.sh build .claude/skills/pep-talk/examples/sample.md --mock      # full pipeline with placeholder audio, no credits
 -->
 
 # 1. Arrive

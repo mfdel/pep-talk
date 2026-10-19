@@ -9,13 +9,14 @@ material. Work carefully.
 `user_named_theme: yes|no` · `mode` · `date` · the theme file path `themes/<id>.md` (read it) ·
 any fresh facts the user typed in the prompt · the brief path.
 
-**Read:** `context/profile.md` first, if it exists. Then every source listed in
-`context/sources.md`: local files and folders, other repositories by absolute path, URLs, and MCP
+**Read:** `.claude/skills/pep-talk/context/profile.md` first, if it exists. Then every source
+listed in `.claude/skills/pep-talk/context/sources.md` (paths there are relative to the project
+root): local files and folders, other repositories by absolute path, URLs, and MCP
 connectors (Notion, Google Drive, Granola, Gmail and so on) through whatever tools this session
 has. Search them for what is relevant to the topic and the theme; you do not need to read every
 file in a large folder end to end.
 
-**Output:** the brief at `.cache/briefs/YYYYMMDD_<slug>.md` (today's date, a short kebab-case slug of
+**Output:** the brief at `.pep-talk/briefs/YYYYMMDD_<slug>.md` (today's date, a short kebab-case slug of
 the topic), in the template below. Reply with the path and two lines only: the routing note and the
 day state. Do not echo the brief or the notes back.
 
@@ -44,7 +45,7 @@ day state. Do not echo the brief or the notes back.
   profile allows names. Anything sensitive you found that the speech must not touch goes on §14.
 - **Speakable lines.** Lines meant for the speech are self-contained and speakable, with no
   "see notes", no clinical terms and no file names inside them. Speech files may be shared; the
-  brief stays in the gitignored `.cache/`.
+  brief stays in the gitignored `.pep-talk/briefs/`.
 - **The listener's own lines are verbatim.** §6 and §9 quote only words the listener wrote
   themselves, exactly as written, with the source. Never paraphrase and present the result as
   theirs; a paraphrase is a composed line and goes in §11 marked `composed`.
@@ -54,7 +55,7 @@ day state. Do not echo the brief or the notes back.
 - **Fair value, both directions.** Report each fact neither inflated nor shrunk. At most one number
   per episode, with the verb the source uses.
 - **A section the theme does not need:** write `n/a`. Never fill a section for the sake of it.
-- **Repeat check.** Read `speeches/affirmations.md` and the last 7 days of `speeches/`. Avoid lines
+- **Repeat check.** Read `.pep-talk/affirmations.md` and the last 7 days of `.pep-talk/speeches/`. Avoid lines
   already used this week, and flag the same distressing topic requested 3+ times in 7 days (§17).
 - **Unattended runs.** If nobody can be asked and the theme's required sections cannot be filled,
   write `INSUFFICIENT: <what is missing>` at the top; the writer applies the theme file's fallback.

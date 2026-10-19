@@ -9,8 +9,9 @@ Format: one bullet per source.
 - `<path, URL or connector>` — <what it holds> — <when to use it>
 ```
 
-- **Paths** can be files or folders (folders are searched, not read end to end), relative to this
-  repo, absolute, or starting with `~`. Another git repository is just a folder path.
+- **Paths** can be files or folders (folders are searched, not read end to end), relative to the
+  project root (the folder you run Claude Code in), absolute, or starting with `~`. This skill
+  lives in `.claude/skills/pep-talk/`. Another git repository is just a folder path.
 - **URLs** are fetched as pages.
 - **Connectors** are written `mcp:<name>` plus what to look for, e.g. `mcp:notion pages tagged
   journal`. They work only if the session has that connector.
@@ -19,14 +20,14 @@ Format: one bullet per source.
 
 ## Sources
 
-- `context/profile.md` — who you are: name, goals, values, critic patterns, lines that help, wins,
-  never-mention list — always; wins over every other source
-- `context/private/` — anything you dropped in: notes, exports, documents — always; search for the
-  topic
-- `speeches/affirmations.md` — lines already used in past talks — always; avoid repeating a line
+- `.claude/skills/pep-talk/context/profile.md` — who you are: name, goals, values, critic
+  patterns, lines that help, wins, never-mention list — always; wins over every other source
+- `.claude/skills/pep-talk/context/private/` — anything you dropped in: notes, exports,
+  documents — always; search for the topic
+- `.pep-talk/affirmations.md` — lines already used in past talks — always; avoid repeating a line
   used in the last 7 days
-- `speeches/` — past talks — always; avoid repeating the same episodes and arcs, and flag the same
-  hard topic requested 3+ times in 7 days
+- `.pep-talk/speeches/` — past talks — always; avoid repeating the same episodes and arcs, and
+  flag the same hard topic requested 3+ times in 7 days
 
 <!--
 Examples. Copy a line above this comment and edit it to add a source.

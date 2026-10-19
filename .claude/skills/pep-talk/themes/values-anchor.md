@@ -85,7 +85,7 @@ No loop. One anchoring sentence that joins the two values, e.g.:
 - "Your path is measured against your values, not against anyone's timeline."
 - Identity wobble: the listener's own sentence for the direction they chose, verbatim.
 
-Log it in `speeches/affirmations.md` (guide §7).
+Log it in `.pep-talk/affirmations.md` (guide §7).
 
 ## Worked example — section 3 (excerpt), `mode: sleep`, comparison with a friend's promotion
 

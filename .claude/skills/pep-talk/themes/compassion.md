@@ -82,7 +82,7 @@ One line, no loop. It names a fact and offers kindness, and survives the critic.
 - "This hurts because it mattered. It is not a verdict."
 - "Hard day. Kind voice. Both are true."
 
-Log it in `speeches/affirmations.md` (guide §7).
+Log it in `.pep-talk/affirmations.md` (guide §7).
 
 ## Worked example — section 5 (excerpt), `mode: sleep`, after a rejection email
 
